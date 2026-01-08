@@ -15,14 +15,19 @@
   border: 1px solid rgba(100, 217, 255, 0.2);
   border-radius: 12px;
   padding: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 100%;
+  position: relative;
+  overflow: visible;
 }
 
 /* Ensure Travelpayouts widget styles are not overridden */
 .flight-widget-container-inner :global(*) {
   box-sizing: border-box;
+}
+
+/* Allow widget to control its own layout */
+.flight-widget-container-inner > * {
+  width: 100%;
 }
 
 @media (max-width: 600px) {
