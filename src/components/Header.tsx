@@ -38,8 +38,8 @@ const Header = () => {
           <button onClick={() => scrollToSection('flight-widget')} className="nav-link">
             Search Flights
           </button>
-          <button onClick={() => scrollToSection('planner')} className="nav-link">
-            Solo Planner
+          <button onClick={() => scrollToSection('solo-planner')} className="nav-link">
+            Toolkit
           </button>
           <button onClick={() => scrollToSection('about')} className="nav-link">
             About

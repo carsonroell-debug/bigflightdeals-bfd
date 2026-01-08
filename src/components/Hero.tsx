@@ -11,18 +11,40 @@ const Hero = () => {
     setEmail('');
   };
 
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <section id="hero" className="hero">
       <div className="hero-container">
         <div className="hero-content">
           <h1 className="hero-title">
-            Your travel buddy for solo budget adventures and real cheap flights
+            Solo flight deals + packing plans, on autopilot.
           </h1>
           <p className="hero-description">
             Stop scrolling through fake "$20 a day" itineraries. Get honest flight deals, 
             smart packing tips, and the exact tools I use to travel solo without breaking the bank.
           </p>
           
+          <div className="hero-cta-buttons">
+            <button 
+              className="hero-primary-button"
+              onClick={() => scrollToSection('flight-widget')}
+            >
+              Scan flights now
+            </button>
+            <button 
+              className="hero-primary-button"
+              onClick={() => scrollToSection('solo-planner')}
+            >
+              Get the Solo Travel Toolkit
+            </button>
+          </div>
+
           <form className="email-form" onSubmit={handleSubmit}>
             <input
               type="email"

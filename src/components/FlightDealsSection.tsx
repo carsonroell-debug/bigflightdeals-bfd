@@ -16,6 +16,9 @@ const FlightDealsSection = () => {
         <p className="section-subtitle">
           Real deal windows for budget solo travel. Prices are target ranges—actual deals vary by season and booking timing.
         </p>
+        <p className="deals-helper-text">
+          Pick a route you like, then hit 'Search this route' to scan live prices below.
+        </p>
         <div className="deals-grid">
           {sampleDeals.map((deal) => (
             <div key={deal.id} className="deal-card">

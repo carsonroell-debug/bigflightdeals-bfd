@@ -36,10 +36,43 @@
   margin: 0;
 }
 
+.hero-cta-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.hero-primary-button {
+  flex: 1;
+  min-width: 200px;
+  padding: 1.25rem 2rem;
+  background: linear-gradient(135deg, #64d9ff 0%, #00ff88 100%);
+  color: #0f0f14;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  font-family: inherit;
+}
+
+.hero-primary-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(100, 217, 255, 0.4);
+}
+
+.hero-primary-button:active {
+  transform: translateY(0);
+}
+
 .email-form {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+  margin-top: 1rem;
 }
 
 .email-input {
@@ -197,6 +230,14 @@
 
   .hero-description {
     font-size: 1rem;
+  }
+
+  .hero-cta-buttons {
+    flex-direction: column;
+  }
+
+  .hero-primary-button {
+    width: 100%;
   }
 
   .email-form {
