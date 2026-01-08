@@ -1,0 +1,37 @@
+.flight-widget-section {
+  padding: 6rem 2rem;
+  background: #0f0f14;
+}
+
+.flight-widget-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.flight-widget-container-inner {
+  margin-top: 2rem;
+  min-height: 400px;
+  background: rgba(100, 217, 255, 0.05);
+  border: 1px solid rgba(100, 217, 255, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Ensure Travelpayouts widget styles are not overridden */
+.flight-widget-container-inner :global(*) {
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .flight-widget-section {
+    padding: 4rem 1rem;
+  }
+
+  .flight-widget-container-inner {
+    padding: 1rem;
+    min-height: 300px;
+  }
+}

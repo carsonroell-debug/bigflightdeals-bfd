@@ -2,6 +2,8 @@ import Header from './components/Header';
 import Hero from './components/Hero';
 import HowItWorks from './components/HowItWorks';
 import ToolsSection from './components/ToolsSection';
+import FlightDealsSection from './components/FlightDealsSection';
+import FlightWidget from './components/FlightWidget';
 import PlannerSection from './components/PlannerSection';
 import AboutSection from './components/AboutSection';
 import FAQSection from './components/FAQSection';
@@ -16,6 +18,8 @@ function App() {
         <Hero />
         <HowItWorks />
         <ToolsSection />
+        <FlightDealsSection />
+        <FlightWidget />
         <PlannerSection />
         <AboutSection />
         <FAQSection />
