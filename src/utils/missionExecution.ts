@@ -33,9 +33,10 @@ export const executeMission = (mission: MissionInput): void => {
 
   // 2. Emit mission_executed event to GA4
   if (typeof window !== 'undefined') {
-    // Check for gtag (GA4)
-    if (typeof (window as any).gtag === 'function') {
-      (window as any).gtag('event', 'mission_executed', {
+    // Check for gtag (GA4) - typed as unknown to avoid any
+    const gtag = (window as { gtag?: (...args: unknown[]) => void }).gtag;
+    if (typeof gtag === 'function') {
+      gtag('event', 'mission_executed', {
         event_category: 'mission',
         event_label: `${mission.origin}_${mission.destination}`,
         origin: mission.origin,
