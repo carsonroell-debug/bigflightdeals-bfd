@@ -1,0 +1,118 @@
+.planner-section {
+  padding: 6rem 2rem;
+  background: linear-gradient(135deg, rgba(100, 217, 255, 0.1) 0%, rgba(0, 255, 136, 0.1) 100%);
+  border-top: 1px solid rgba(100, 217, 255, 0.2);
+  border-bottom: 1px solid rgba(100, 217, 255, 0.2);
+}
+
+.planner-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.planner-content {
+  text-align: center;
+}
+
+.planner-description {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 3rem;
+}
+
+.planner-benefits {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+  text-align: left;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.benefit-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  font-size: 1.1rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+}
+
+.benefit-icon {
+  color: #00ff88;
+  font-weight: 700;
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.planner-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.planner-button {
+  padding: 1rem 2rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  font-family: inherit;
+  border: none;
+}
+
+.planner-button.primary {
+  background: linear-gradient(135deg, #64d9ff 0%, #00ff88 100%);
+  color: #0f0f14;
+}
+
+.planner-button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(100, 217, 255, 0.4);
+}
+
+.planner-button.secondary {
+  background: transparent;
+  color: #64d9ff;
+  border: 2px solid rgba(100, 217, 255, 0.5);
+}
+
+.planner-button.secondary:hover {
+  transform: translateY(-2px);
+  border-color: #64d9ff;
+  box-shadow: 0 4px 20px rgba(100, 217, 255, 0.2);
+}
+
+@media (max-width: 600px) {
+  .planner-section {
+    padding: 4rem 1rem;
+  }
+
+  .planner-description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .planner-benefits {
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .benefit-item {
+    font-size: 1rem;
+  }
+
+  .planner-cta {
+    flex-direction: column;
+  }
+
+  .planner-button {
+    width: 100%;
+  }
+}

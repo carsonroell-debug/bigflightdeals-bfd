@@ -1,0 +1,76 @@
+.tools-section {
+  padding: 6rem 2rem;
+  background: #0f0f14;
+}
+
+.tools-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.tool-card {
+  background: rgba(100, 217, 255, 0.05);
+  border: 1px solid rgba(100, 217, 255, 0.2);
+  border-radius: 12px;
+  padding: 2rem;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(100, 217, 255, 0.4);
+}
+
+.tool-category {
+  font-size: 0.85rem;
+  color: rgba(100, 217, 255, 0.8);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.tool-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 1rem;
+}
+
+.tool-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0 0 1.5rem;
+}
+
+.tool-link-placeholder {
+  font-size: 0.9rem;
+  color: rgba(100, 217, 255, 0.6);
+  font-style: italic;
+  padding: 0.75rem;
+  background: rgba(100, 217, 255, 0.05);
+  border-radius: 6px;
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .tools-section {
+    padding: 4rem 1rem;
+  }
+
+  .tools-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .tool-card {
+    padding: 1.5rem;
+  }
+}
