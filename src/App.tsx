@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import HowItWorks from './components/HowItWorks';
@@ -8,9 +9,24 @@ import PlannerSection from './components/PlannerSection';
 import AboutSection from './components/AboutSection';
 import FAQSection from './components/FAQSection';
 import Footer from './components/Footer';
+import MissionModal from './components/MissionModal';
+import type { Mission } from './types/mission';
 import './App.css';
 
 function App() {
+  const [isMissionModalOpen, setIsMissionModalOpen] = useState(false);
+  const [selectedMission, setSelectedMission] = useState<Mission | null>(null);
+
+  const handleOpenMission = (mission: Mission) => {
+    setSelectedMission(mission);
+    setIsMissionModalOpen(true);
+  };
+
+  const handleCloseMission = () => {
+    setIsMissionModalOpen(false);
+    // Keep mission in state for potential reuse, but modal is closed
+  };
+
   return (
     <div className="app">
       <Header />
@@ -18,13 +34,18 @@ function App() {
         <Hero />
         <HowItWorks />
         <ToolsSection />
-        <FlightDealsSection />
+        <FlightDealsSection onRunMission={handleOpenMission} />
         <FlightWidget />
         <PlannerSection />
         <AboutSection />
         <FAQSection />
       </main>
       <Footer />
+      <MissionModal
+        isOpen={isMissionModalOpen}
+        onClose={handleCloseMission}
+        mission={selectedMission}
+      />
     </div>
   );
 }

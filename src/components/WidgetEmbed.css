@@ -1,0 +1,21 @@
+.widget-embed-container {
+  width: 100%;
+  min-height: 400px;
+  position: relative;
+}
+
+/* Ensure Travelpayouts widget styles are not overridden */
+.widget-embed-container :global(*) {
+  box-sizing: border-box;
+}
+
+/* Allow widget to control its own layout */
+.widget-embed-container > * {
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .widget-embed-container {
+    min-height: 300px;
+  }
+}

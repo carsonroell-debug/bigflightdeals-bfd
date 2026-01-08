@@ -1,22 +1,40 @@
 import { sampleDeals } from '../data/deals';
-import { setSelectedRoute } from '../utils/selectedRoute';
+import { executeMission, enrichMission } from '../utils/missionExecution';
+import type { Mission } from '../types/mission';
 import './FlightDealsSection.css';
 
-const FlightDealsSection = () => {
-  const handleSearchRoute = (deal: typeof sampleDeals[0]) => {
-    // Save the selected route to localStorage
-    setSelectedRoute({
-      originCode: deal.originCode,
-      destinationCode: deal.destinationCode,
+interface FlightDealsSectionProps {
+  onRunMission: (mission: Mission) => void;
+}
+
+const FlightDealsSection = ({ onRunMission }: FlightDealsSectionProps) => {
+  const handleRunMission = (deal: typeof sampleDeals[0]) => {
+    // Create mission input from deal
+    const missionInput: Mission = {
+      origin: deal.originCode,
+      destination: deal.destinationCode,
+      travelerType: 'solo', // All deals are solo-focused
       originName: deal.from,
       destinationName: deal.to,
-    });
+      // Optional: could add budget from deal.price if needed
+      budget: {
+        amount: deal.price,
+        currency: deal.currency,
+      },
+    };
+
+    // Execute mission (locks route, emits GA4 event)
+    executeMission(missionInput);
+
+    // Enrich with display names and trigger modal
+    const enrichedMission = enrichMission(
+      missionInput,
+      deal.from,
+      deal.to
+    );
     
-    // Scroll to the widget
-    const element = document.getElementById('flight-widget');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+    // Trigger modal open at App level (no scrolling)
+    onRunMission(enrichedMission);
   };
 
   return (
@@ -27,7 +45,7 @@ const FlightDealsSection = () => {
           Real deal windows for budget solo travel. Prices are target ranges—actual deals vary by season and booking timing.
         </p>
         <p className="deals-helper-text">
-          Pick a route you like, then hit 'Search this route' to scan live prices below.
+          Pick a route you like, then hit 'Run this mission' to scan live prices instantly.
         </p>
         <div className="deals-grid">
           {sampleDeals.map((deal) => (
@@ -52,9 +70,9 @@ const FlightDealsSection = () => {
               )}
               <button 
                 className="deal-button"
-                onClick={() => handleSearchRoute(deal)}
+                onClick={() => handleRunMission(deal)}
               >
-                Search this route
+                Run this mission
               </button>
             </div>
           ))}
