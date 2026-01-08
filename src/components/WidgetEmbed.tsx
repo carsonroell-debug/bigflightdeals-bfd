@@ -18,19 +18,20 @@ const WidgetEmbed = ({ originCode, destinationCode, className = '' }: WidgetEmbe
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    const container = containerRef.current;
+    if (!container) return;
 
     // Inject widget with route if provided
     injectWidget(
-      containerRef.current,
+      container,
       originCode,
       destinationCode
     );
 
-    // Cleanup on unmount
+    // Cleanup on unmount - use captured container value
     return () => {
-      if (containerRef.current) {
-        containerRef.current.innerHTML = '';
+      if (container) {
+        container.innerHTML = '';
       }
     };
   }, [originCode, destinationCode]); // Re-inject when route changes

@@ -14,12 +14,12 @@ import './FlightWidget.css';
  * instead of the embedded widget, making it easy to swap implementations.
  */
 const FlightWidget = () => {
-  const [selectedRoute, setSelectedRouteState] = useState<SelectedRoute | null>(null);
+  // Initialize state from localStorage on mount
+  const [selectedRoute, setSelectedRouteState] = useState<SelectedRoute | null>(() => 
+    getSelectedRoute()
+  );
 
   useEffect(() => {
-    // Check for selected route in localStorage on mount
-    const route = getSelectedRoute();
-    setSelectedRouteState(route);
 
     // Listen for route changes from other components
     const handleRouteSelected = (event: Event) => {

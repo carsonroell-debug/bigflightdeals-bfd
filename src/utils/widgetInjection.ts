@@ -5,9 +5,52 @@
  * Used by both FlightWidget (full-page) and MissionModal (modal).
  */
 
-const TRAVELPAYOUTS_WIDGET_SNIPPET = `
-<script async src="https://tpwdgt.com/content?currency=usd&trs=387747&shmarker=605276&show_hotels=true&powered_by=true&locale=en&searchUrl=www.aviasales.com%2Fsearch&primary_override=%2332a8dd&color_button=%2332a8dd&color_icons=%2332a8dd&dark=%23262626&light=%23FFFFFF&secondary=%23FFFFFF&special=%23C4C4C4&color_focused=%2332a8dd&border_radius=0&plain=false&promo_id=7879&campaign_id=100" charset="utf-8"></script>
-`;
+/**
+ * Builds the Travelpayouts widget URL from environment variables.
+ * Falls back to defaults if env vars are not set (for development).
+ */
+const buildWidgetUrl = (): string => {
+  const trs = import.meta.env.VITE_TRAVELPAYOUTS_TRS || '387747';
+  const shmarker = import.meta.env.VITE_TRAVELPAYOUTS_SHMARKER || '605276';
+  const promoId = import.meta.env.VITE_TRAVELPAYOUTS_PROMO_ID || '7879';
+  const campaignId = import.meta.env.VITE_TRAVELPAYOUTS_CAMPAIGN_ID || '100';
+  const currency = import.meta.env.VITE_WIDGET_CURRENCY || 'usd';
+  const locale = import.meta.env.VITE_WIDGET_LOCALE || 'en';
+  const showHotels = import.meta.env.VITE_WIDGET_SHOW_HOTELS !== 'false';
+  const poweredBy = import.meta.env.VITE_WIDGET_POWERED_BY !== 'false';
+
+  const params = new URLSearchParams({
+    currency,
+    trs,
+    shmarker,
+    show_hotels: String(showHotels),
+    powered_by: String(poweredBy),
+    locale,
+    searchUrl: 'www.aviasales.com%2Fsearch',
+    primary_override: '%2332a8dd',
+    color_button: '%2332a8dd',
+    color_icons: '%2332a8dd',
+    dark: '%23262626',
+    light: '%23FFFFFF',
+    secondary: '%23FFFFFF',
+    special: '%23C4C4C4',
+    color_focused: '%2332a8dd',
+    border_radius: '0',
+    plain: 'false',
+    promo_id: promoId,
+    campaign_id: campaignId,
+  });
+
+  return `https://tpwdgt.com/content?${params.toString()}`;
+};
+
+/**
+ * Generates the widget snippet with current configuration.
+ */
+const getWidgetSnippet = (): string => {
+  const url = buildWidgetUrl();
+  return `<script async src="${url}" charset="utf-8"></script>`;
+};
 
 /**
  * Modifies the widget snippet to include origin and destination parameters.
@@ -55,10 +98,10 @@ export const injectWidget = (
   container.innerHTML = '';
 
   // Get the widget snippet, modified with route if provided
-  let widgetSnippet = TRAVELPAYOUTS_WIDGET_SNIPPET;
+  let widgetSnippet = getWidgetSnippet();
   if (originCode && destinationCode) {
     widgetSnippet = modifyWidgetSnippetWithRoute(
-      TRAVELPAYOUTS_WIDGET_SNIPPET,
+      widgetSnippet,
       originCode,
       destinationCode
     );
