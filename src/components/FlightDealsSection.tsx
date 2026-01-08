@@ -1,8 +1,18 @@
 import { sampleDeals } from '../data/deals';
+import { setSelectedRoute } from '../utils/selectedRoute';
 import './FlightDealsSection.css';
 
 const FlightDealsSection = () => {
-  const scrollToWidget = () => {
+  const handleSearchRoute = (deal: typeof sampleDeals[0]) => {
+    // Save the selected route to localStorage
+    setSelectedRoute({
+      originCode: deal.originCode,
+      destinationCode: deal.destinationCode,
+      originName: deal.from,
+      destinationName: deal.to,
+    });
+    
+    // Scroll to the widget
     const element = document.getElementById('flight-widget');
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
@@ -42,7 +52,7 @@ const FlightDealsSection = () => {
               )}
               <button 
                 className="deal-button"
-                onClick={scrollToWidget}
+                onClick={() => handleSearchRoute(deal)}
               >
                 Search this route
               </button>

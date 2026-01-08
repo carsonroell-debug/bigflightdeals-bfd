@@ -2,6 +2,8 @@ export interface FlightDeal {
   id: string;
   from: string;
   to: string;
+  originCode: string;
+  destinationCode: string;
   price: number;
   currency: string;
   bestSeason?: string;
@@ -13,6 +15,8 @@ export const sampleDeals: FlightDeal[] = [
     id: "yyz-lis",
     from: "Toronto (YYZ)",
     to: "Lisbon (LIS)",
+    originCode: "YTO",
+    destinationCode: "LIS",
     price: 550,
     currency: "CAD",
     bestSeason: "March–May, Sept–Nov",
@@ -22,6 +26,8 @@ export const sampleDeals: FlightDeal[] = [
     id: "yyz-mad",
     from: "Toronto (YYZ)",
     to: "Madrid (MAD)",
+    originCode: "YTO",
+    destinationCode: "MAD",
     price: 580,
     currency: "CAD",
     bestSeason: "March–May, Oct–Nov",
@@ -31,6 +37,8 @@ export const sampleDeals: FlightDeal[] = [
     id: "yyz-bcn",
     from: "Toronto (YYZ)",
     to: "Barcelona (BCN)",
+    originCode: "YTO",
+    destinationCode: "BCN",
     price: 620,
     currency: "CAD",
     bestSeason: "April–June, Sept–Oct",
@@ -40,6 +48,8 @@ export const sampleDeals: FlightDeal[] = [
     id: "yyz-opo",
     from: "Toronto (YYZ)",
     to: "Porto (OPO)",
+    originCode: "YTO",
+    destinationCode: "OPO",
     price: 520,
     currency: "CAD",
     bestSeason: "March–May, Sept–Nov",
@@ -49,6 +59,8 @@ export const sampleDeals: FlightDeal[] = [
     id: "yyz-lon",
     from: "Toronto (YYZ)",
     to: "London (LHR/LGW)",
+    originCode: "YTO",
+    destinationCode: "LON",
     price: 650,
     currency: "CAD",
     bestSeason: "March–May, Sept–Nov",
@@ -58,6 +70,8 @@ export const sampleDeals: FlightDeal[] = [
     id: "yyz-ams",
     from: "Toronto (YYZ)",
     to: "Amsterdam (AMS)",
+    originCode: "YTO",
+    destinationCode: "AMS",
     price: 680,
     currency: "CAD",
     bestSeason: "April–May, Sept–Oct",
@@ -67,6 +81,8 @@ export const sampleDeals: FlightDeal[] = [
     id: "yyz-ber",
     from: "Toronto (YYZ)",
     to: "Berlin (BER)",
+    originCode: "YTO",
+    destinationCode: "BER",
     price: 640,
     currency: "CAD",
     bestSeason: "May–June, Sept–Oct",
@@ -76,6 +92,8 @@ export const sampleDeals: FlightDeal[] = [
     id: "yyz-prg",
     from: "Toronto (YYZ)",
     to: "Prague (PRG)",
+    originCode: "YTO",
+    destinationCode: "PRG",
     price: 590,
     currency: "CAD",
     bestSeason: "April–May, Sept–Oct",
@@ -85,6 +103,8 @@ export const sampleDeals: FlightDeal[] = [
     id: "yyz-vie",
     from: "Toronto (YYZ)",
     to: "Vienna (VIE)",
+    originCode: "YTO",
+    destinationCode: "VIE",
     price: 660,
     currency: "CAD",
     bestSeason: "April–May, Sept–Oct",
@@ -94,6 +114,8 @@ export const sampleDeals: FlightDeal[] = [
     id: "yyz-ist",
     from: "Toronto (YYZ)",
     to: "Istanbul (IST)",
+    originCode: "YTO",
+    destinationCode: "IST",
     price: 720,
     currency: "CAD",
     bestSeason: "March–May, Sept–Nov",

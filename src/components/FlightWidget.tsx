@@ -1,4 +1,6 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { getSelectedRoute, clearSelectedRoute } from '../utils/selectedRoute';
+import type { SelectedRoute } from '../utils/selectedRoute';
 import './FlightWidget.css';
 
 /**
@@ -12,16 +14,77 @@ const TRAVELPAYOUTS_WIDGET_SNIPPET = `
 `;
 
 /**
+ * Modifies the widget snippet to include origin and destination parameters.
+ * Safely extracts the script src URL, adds route params, and replaces it in the snippet.
+ */
+const modifyWidgetSnippetWithRoute = (
+  snippet: string,
+  originCode: string,
+  destinationCode: string
+): string => {
+  // Extract script src URL using regex
+  const scriptSrcMatch = snippet.match(/src="([^"]+)"/);
+  if (!scriptSrcMatch || !scriptSrcMatch[1]) {
+    console.warn('[FlightWidget] Could not extract script src from snippet');
+    return snippet;
+  }
+
+  const originalUrl = scriptSrcMatch[1];
+  
+  try {
+    // Parse the URL and add route parameters
+    const url = new URL(originalUrl);
+    url.searchParams.set('origin', originCode);
+    url.searchParams.set('destination', destinationCode);
+    
+    // Replace the old URL with the modified one
+    const modifiedSnippet = snippet.replace(scriptSrcMatch[1], url.toString());
+    return modifiedSnippet;
+  } catch (error) {
+    console.warn('[FlightWidget] Failed to modify widget URL:', error);
+    return snippet;
+  }
+};
+
+/**
  * FlightWidget - Renders the Travelpayouts/Aviasales flight search widget.
  * 
  * This component injects the widget HTML snippet and ensures all scripts execute
  * correctly in React, preserving affiliate tracking and handling re-renders safely.
+ * 
+ * If a route is selected (from localStorage), the widget URL is modified to pre-fill
+ * the origin and destination fields.
  * 
  * Future: This component will be refactored to display API-driven flight results
  * instead of the embedded widget, making it easy to swap implementations.
  */
 const FlightWidget = () => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [selectedRoute, setSelectedRouteState] = useState<SelectedRoute | null>(null);
+
+  useEffect(() => {
+    // Check for selected route in localStorage on mount
+    const route = getSelectedRoute();
+    setSelectedRouteState(route);
+
+    // Listen for route changes from other components
+    const handleRouteSelected = (event: Event) => {
+      const customEvent = event as CustomEvent<SelectedRoute>;
+      setSelectedRouteState(customEvent.detail);
+    };
+
+    const handleRouteCleared = () => {
+      setSelectedRouteState(null);
+    };
+
+    window.addEventListener('bfd-route-selected', handleRouteSelected);
+    window.addEventListener('bfd-route-cleared', handleRouteCleared);
+
+    return () => {
+      window.removeEventListener('bfd-route-selected', handleRouteSelected);
+      window.removeEventListener('bfd-route-cleared', handleRouteCleared);
+    };
+  }, []);
 
   useEffect(() => {
     // Guard: ensure container exists
@@ -33,8 +96,22 @@ const FlightWidget = () => {
     // Clear any existing content to prevent duplicates
     containerRef.current.innerHTML = '';
 
+    // Get the widget snippet, modified with route if available
+    let widgetSnippet = TRAVELPAYOUTS_WIDGET_SNIPPET;
+    if (selectedRoute) {
+      widgetSnippet = modifyWidgetSnippetWithRoute(
+        TRAVELPAYOUTS_WIDGET_SNIPPET,
+        selectedRoute.originCode,
+        selectedRoute.destinationCode
+      );
+      console.log('[FlightWidget] Widget URL modified with route:', {
+        origin: selectedRoute.originCode,
+        destination: selectedRoute.destinationCode,
+      });
+    }
+
     // Inject the widget snippet HTML
-    containerRef.current.innerHTML = TRAVELPAYOUTS_WIDGET_SNIPPET;
+    containerRef.current.innerHTML = widgetSnippet;
 
     // Find all script tags in the injected HTML
     // Scripts injected via innerHTML don't execute automatically, so we must re-execute them
@@ -88,7 +165,13 @@ const FlightWidget = () => {
         containerRef.current.innerHTML = '';
       }
     };
-  }, []); // Empty dependency array ensures this runs once on mount only
+  }, [selectedRoute]); // Re-run when selectedRoute changes
+
+  const handleClearRoute = () => {
+    clearSelectedRoute();
+    setSelectedRouteState(null);
+    // The useEffect will automatically re-run when selectedRoute changes to null
+  };
 
   return (
     <section id="flight-widget" className="flight-widget-section">
@@ -98,6 +181,20 @@ const FlightWidget = () => {
           Book your flights through our search tool below. Your bookings support the site via affiliate partnerships, 
           helping us keep the deals flowing and the content free.
         </p>
+        {selectedRoute && (
+          <div className="selected-route-indicator">
+            <span className="selected-route-text">
+              Selected route: {selectedRoute.originName || selectedRoute.originCode} → {selectedRoute.destinationName || selectedRoute.destinationCode}
+            </span>
+            <button 
+              className="selected-route-change"
+              onClick={handleClearRoute}
+              type="button"
+            >
+              (change)
+            </button>
+          </div>
+        )}
         <div 
           ref={containerRef} 
           className="flight-widget-container-inner"
