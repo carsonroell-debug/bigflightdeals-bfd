@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getSelectedRoute, clearSelectedRoute } from '../utils/selectedRoute';
-import type { SelectedRoute } from '../utils/selectedRoute';
+import { getMission, clearMission } from '../utils/missionStore';
+import type { MissionInput } from '../types/mission';
 import WidgetEmbed from './WidgetEmbed';
 import './FlightWidget.css';
 
@@ -9,40 +9,34 @@ import './FlightWidget.css';
  * 
  * Full-page widget section (kept for SEO, long sessions, and fallback).
  * Uses shared WidgetEmbed component for consistent widget injection.
+ * Reads mission from missionStore (localStorage).
  * 
  * Future: This component will be refactored to display API-driven flight results
  * instead of the embedded widget, making it easy to swap implementations.
  */
 const FlightWidget = () => {
-  // Initialize state from localStorage on mount
-  const [selectedRoute, setSelectedRouteState] = useState<SelectedRoute | null>(() => 
-    getSelectedRoute()
+  // Initialize state from missionStore on mount
+  const [mission, setMissionState] = useState<MissionInput | null>(() => 
+    getMission()
   );
 
   useEffect(() => {
-
-    // Listen for route changes from other components
-    const handleRouteSelected = (event: Event) => {
-      const customEvent = event as CustomEvent<SelectedRoute>;
-      setSelectedRouteState(customEvent.detail);
+    // Listen for mission changes from other components
+    const handleMissionExecuted = (event: Event) => {
+      const customEvent = event as CustomEvent<MissionInput>;
+      setMissionState(customEvent.detail);
     };
 
-    const handleRouteCleared = () => {
-      setSelectedRouteState(null);
-    };
-
-    window.addEventListener('bfd-route-selected', handleRouteSelected);
-    window.addEventListener('bfd-route-cleared', handleRouteCleared);
+    window.addEventListener('bfd-mission-executed', handleMissionExecuted);
 
     return () => {
-      window.removeEventListener('bfd-route-selected', handleRouteSelected);
-      window.removeEventListener('bfd-route-cleared', handleRouteCleared);
+      window.removeEventListener('bfd-mission-executed', handleMissionExecuted);
     };
   }, []);
 
-  const handleClearRoute = () => {
-    clearSelectedRoute();
-    setSelectedRouteState(null);
+  const handleClearMission = () => {
+    clearMission();
+    setMissionState(null);
   };
 
   return (
@@ -53,14 +47,14 @@ const FlightWidget = () => {
           Book your flights through our search tool below. Your bookings support the site via affiliate partnerships, 
           helping us keep the deals flowing and the content free.
         </p>
-        {selectedRoute && (
+        {mission && (
           <div className="selected-route-indicator">
             <span className="selected-route-text">
-              Selected route: {selectedRoute.originName || selectedRoute.originCode} → {selectedRoute.destinationName || selectedRoute.destinationCode}
+              Selected route: {mission.originLabel} → {mission.destinationLabel}
             </span>
             <button 
               className="selected-route-change"
-              onClick={handleClearRoute}
+              onClick={handleClearMission}
               type="button"
             >
               (change)
@@ -68,8 +62,8 @@ const FlightWidget = () => {
           </div>
         )}
         <WidgetEmbed
-          originCode={selectedRoute?.originCode}
-          destinationCode={selectedRoute?.destinationCode}
+          originCode={mission?.originCode}
+          destinationCode={mission?.destinationCode}
           className="flight-widget-container-inner"
         />
       </div>

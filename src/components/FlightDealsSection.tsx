@@ -1,40 +1,41 @@
 import { sampleDeals } from '../data/deals';
-import { executeMission, enrichMission } from '../utils/missionExecution';
-import type { Mission } from '../types/mission';
+import { executeMission } from '../utils/executeMission';
+import { track } from '../utils/analytics';
+import type { MissionInput } from '../types/mission';
 import './FlightDealsSection.css';
 
 interface FlightDealsSectionProps {
-  onRunMission: (mission: Mission) => void;
+  onRunMission: (mission: MissionInput) => void;
 }
 
 const FlightDealsSection = ({ onRunMission }: FlightDealsSectionProps) => {
   const handleRunMission = (deal: typeof sampleDeals[0]) => {
-    // Create mission input from deal
-    const missionInput: Mission = {
-      origin: deal.originCode,
-      destination: deal.destinationCode,
+    // Build MissionInput from deal
+    const mission: MissionInput = {
+      id: deal.id,
+      originCode: deal.originCode,
+      destinationCode: deal.destinationCode,
+      originLabel: deal.from,
+      destinationLabel: deal.to,
+      currency: deal.currency,
+      budget: deal.price,
       travelerType: 'solo', // All deals are solo-focused
-      originName: deal.from,
-      destinationName: deal.to,
-      // Optional: could add budget from deal.price if needed
-      budget: {
-        amount: deal.price,
-        currency: deal.currency,
-      },
+      notes: deal.notes,
+      source: 'deals_grid',
     };
 
-    // Execute mission (locks route, emits GA4 event)
-    executeMission(missionInput);
+    // Execute mission (writes to localStorage, tracks analytics)
+    const normalizedMission = executeMission(mission, { openModal: true });
 
-    // Enrich with display names and trigger modal
-    const enrichedMission = enrichMission(
-      missionInput,
-      deal.from,
-      deal.to
-    );
-    
+    // Track deal mission opened
+    track('deal_mission_opened', {
+      origin: deal.originCode,
+      destination: deal.destinationCode,
+      dealId: deal.id,
+    });
+
     // Trigger modal open at App level (no scrolling)
-    onRunMission(enrichedMission);
+    onRunMission(normalizedMission);
   };
 
   return (
