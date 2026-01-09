@@ -38,7 +38,7 @@ const MissionInputSection = ({ onRunMission }: MissionInputSectionProps) => {
 
   const handleRunMission = (mission: MissionInput) => {
     // Execute mission (writes to localStorage, tracks analytics)
-    const normalizedMission = executeMission(mission, { openModal: true });
+    const result = executeMission(mission, { openModal: true });
 
     // Track suggested mission run
     track('mission_suggested_run', {
@@ -47,8 +47,8 @@ const MissionInputSection = ({ onRunMission }: MissionInputSectionProps) => {
       destination: mission.destinationCode,
     });
 
-    // Open modal
-    onRunMission(normalizedMission);
+    // Open modal with the normalized mission
+    onRunMission(result.mission);
   };
 
   return (

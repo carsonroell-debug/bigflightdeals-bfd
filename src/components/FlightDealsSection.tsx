@@ -25,7 +25,7 @@ const FlightDealsSection = ({ onRunMission }: FlightDealsSectionProps) => {
     };
 
     // Execute mission (writes to localStorage, tracks analytics)
-    const normalizedMission = executeMission(mission, { openModal: true });
+    const result = executeMission(mission, { openModal: true });
 
     // Track deal mission opened
     track('deal_mission_opened', {
@@ -35,7 +35,7 @@ const FlightDealsSection = ({ onRunMission }: FlightDealsSectionProps) => {
     });
 
     // Trigger modal open at App level (no scrolling)
-    onRunMission(normalizedMission);
+    onRunMission(result.mission);
   };
 
   return (

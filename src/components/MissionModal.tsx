@@ -1,27 +1,46 @@
-import { useEffect } from 'react';
+import { useEffect, useReducer } from 'react';
 import WidgetEmbed from './WidgetEmbed';
 import { track } from '../utils/analytics';
-import type { MissionInput } from '../types/mission';
+import { saveMission, getSavedMissions } from '../utils/missionStore';
+import type { MissionV1 } from '../types/mission';
 import './MissionModal.css';
 
 interface MissionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  mission: MissionInput | null;
+  mission: MissionV1 | null;
 }
 
 /**
  * MissionModal - Agentic flight search modal.
- * 
+ *
  * Opens when user clicks "Run this mission" on a deal card.
  * Shows the route and embeds the Aviasales widget for instant price scanning.
- * 
+ *
  * Accepts a Mission object that can be triggered by:
  * - UI components (human clicks)
  * - AI agents (JSON payloads)
  * - External systems (API calls)
  */
 const MissionModal = ({ isOpen, onClose, mission }: MissionModalProps) => {
+  // Force re-render after save to update isSaved
+  const [, forceUpdate] = useReducer((x: number) => x + 1, 0);
+
+  // Compute if saved on each render
+  const isSaved = mission ? getSavedMissions().some((m) => m.id === mission.id) : false;
+
+  const handleSaveMission = () => {
+    if (!mission) return;
+
+    saveMission(mission);
+    forceUpdate();
+
+    track('mission_saved', {
+      id: mission.id,
+      origin: mission.originCode,
+      destination: mission.destinationCode,
+    });
+  };
   // Handle ESC key to close
   useEffect(() => {
     if (!isOpen) return;
@@ -120,7 +139,7 @@ const MissionModal = ({ isOpen, onClose, mission }: MissionModalProps) => {
         </div>
 
         <div className="mission-modal-actions">
-          <button 
+          <button
             className="mission-button-primary"
             onClick={() => {
               // Widget is already loaded and ready - user can interact with it
@@ -135,7 +154,15 @@ const MissionModal = ({ isOpen, onClose, mission }: MissionModalProps) => {
           >
             Search live prices
           </button>
-          <button 
+          <button
+            className={`mission-button-save ${isSaved ? 'saved' : ''}`}
+            onClick={handleSaveMission}
+            disabled={isSaved}
+            type="button"
+          >
+            {isSaved ? 'Mission saved' : 'Save mission'}
+          </button>
+          <button
             className="mission-button-secondary"
             onClick={onClose}
             type="button"

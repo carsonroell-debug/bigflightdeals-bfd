@@ -1,22 +1,20 @@
 /**
  * Mission Parser
- * 
+ *
  * Heuristic parser for natural language mission input.
  * Extracts budget, days, month, origin hints, and vibe keywords.
  */
 
-export interface ParsedMission {
-  originHint?: string;      // e.g. "Toronto"
-  budget?: number;            // from $ or CAD pattern
-  monthHint?: string;         // "March" etc
-  daysHint?: number;          // "10 days"
-  vibeHints: string[];        // "warm", "wifi", "beach", "cheap"
-}
+import type { ParsedConstraints } from '../types/mission';
+
+// Re-export for backward compatibility
+export type { ParsedConstraints };
+export type ParsedMission = ParsedConstraints;
 
 /**
  * Parse natural language mission text into structured hints.
  */
-export const parseMissionText = (text: string): ParsedMission => {
+export const parseMissionText = (text: string): ParsedConstraints => {
   const lowerText = text.toLowerCase();
   const vibeHints: string[] = [];
 

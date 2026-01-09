@@ -1,12 +1,11 @@
 /**
  * Mission Suggestions
- * 
+ *
  * Rules-based mission suggestion generator (v1 heuristic).
  * Generates 1-3 route suggestions based on parsed mission hints.
  */
 
-import type { MissionInput } from '../types/mission';
-import type { ParsedMission } from './missionParser';
+import type { MissionV1, ParsedConstraints } from '../types/mission';
 
 /**
  * Route database for suggestions
@@ -117,7 +116,7 @@ const ROUTE_DATABASE: RouteSuggestion[] = [
 /**
  * Score a route suggestion based on parsed mission hints.
  */
-const scoreRoute = (route: RouteSuggestion, parsed: ParsedMission): number => {
+const scoreRoute = (route: RouteSuggestion, parsed: ParsedConstraints): number => {
   let score = 0;
 
   // Budget match
@@ -156,7 +155,7 @@ const scoreRoute = (route: RouteSuggestion, parsed: ParsedMission): number => {
 /**
  * Generate mission suggestions based on parsed hints.
  */
-export const getMissionSuggestions = (parsed: ParsedMission): MissionInput[] => {
+export const getMissionSuggestions = (parsed: ParsedConstraints): MissionV1[] => {
   // Default origin to Toronto if not specified
   const originCode = 'YTO';
 
@@ -175,8 +174,8 @@ export const getMissionSuggestions = (parsed: ParsedMission): MissionInput[] => 
     .sort((a, b) => b.score - a.score)
     .slice(0, 3); // Top 3
 
-  // Convert to MissionInput
-  return scoredRoutes.map(({ route }) => ({
+  // Convert to MissionV1
+  return scoredRoutes.map(({ route }): MissionV1 => ({
     id: route.id,
     originCode: route.originCode,
     destinationCode: route.destinationCode,
@@ -184,6 +183,9 @@ export const getMissionSuggestions = (parsed: ParsedMission): MissionInput[] => 
     destinationLabel: route.destinationLabel,
     currency: 'CAD',
     budget: parsed.budget,
+    tripLengthDays: parsed.daysHint,
+    month: parsed.monthHint,
+    tags: parsed.vibeHints.length > 0 ? parsed.vibeHints : route.vibeMatch,
     travelerType: 'solo',
     notes: route.rationale,
     source: 'mission_input',
