@@ -14,6 +14,9 @@ import type { MissionV1 } from '../types/mission';
 const LAST_MISSION_KEY = 'bfd_mission';
 const SAVED_MISSIONS_KEY = 'bfd_saved_missions';
 
+// Soft limit for saved missions (Pro feature teaser)
+export const MAX_SAVED_MISSIONS = 3;
+
 // ────────────────────────────────────────────────────────────────────────────
 // Last Mission (persists across refresh)
 // ────────────────────────────────────────────────────────────────────────────
@@ -107,6 +110,30 @@ export const removeSavedMission = (id: string): void => {
   } catch (error) {
     console.warn('[missionStore] Failed to remove saved mission:', error);
   }
+};
+
+/**
+ * Check if user can save more missions (soft limit).
+ * Returns true if under limit, false if at/over limit.
+ */
+export const canSaveMission = (): boolean => {
+  const saved = getSavedMissions();
+  return saved.length < MAX_SAVED_MISSIONS;
+};
+
+/**
+ * Check if last mission is recent (within N days).
+ */
+export const isLastMissionRecent = (days: number = 7): boolean => {
+  const mission = getLastMission();
+  if (!mission?.createdAt) return false;
+
+  const createdAt = new Date(mission.createdAt);
+  const now = new Date();
+  const diffMs = now.getTime() - createdAt.getTime();
+  const diffDays = diffMs / (1000 * 60 * 60 * 24);
+
+  return diffDays < days;
 };
 
 // ────────────────────────────────────────────────────────────────────────────
