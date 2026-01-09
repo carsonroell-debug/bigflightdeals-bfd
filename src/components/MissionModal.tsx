@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import WidgetEmbed from './WidgetEmbed';
-import type { Mission } from '../types/mission';
+import { track } from '../utils/analytics';
+import type { MissionInput } from '../types/mission';
 import './MissionModal.css';
 
 interface MissionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  mission: Mission | null;
+  mission: MissionInput | null;
 }
 
 /**
@@ -47,6 +48,16 @@ const MissionModal = ({ isOpen, onClose, mission }: MissionModalProps) => {
     };
   }, [isOpen]);
 
+  // Track modal open
+  useEffect(() => {
+    if (isOpen && mission) {
+      track('mission_modal_opened', {
+        origin: mission.originCode,
+        destination: mission.destinationCode,
+      });
+    }
+  }, [isOpen, mission]);
+
   if (!isOpen) return null;
 
   return (
@@ -73,25 +84,24 @@ const MissionModal = ({ isOpen, onClose, mission }: MissionModalProps) => {
           <div className="mission-modal-route">
             <div className="mission-route-display">
               <span className="mission-route-city">
-                {mission.originName || mission.origin}
+                {mission.originLabel}
               </span>
               <span className="mission-route-arrow">→</span>
               <span className="mission-route-city">
-                {mission.destinationName || mission.destination}
+                {mission.destinationLabel}
               </span>
             </div>
             <div className="mission-route-codes">
-              {mission.origin} → {mission.destination}
+              {mission.originCode} → {mission.destinationCode}
             </div>
-            {mission.budget && (
+            {mission.budget && mission.currency && (
               <div className="mission-budget">
-                Budget: {mission.budget.currency} {mission.budget.amount}
+                Budget: {mission.currency} {mission.budget}
               </div>
             )}
-            {mission.dateRange && (
-              <div className="mission-dates">
-                {mission.dateRange.start}
-                {mission.dateRange.end && ` - ${mission.dateRange.end}`}
+            {mission.notes && (
+              <div className="mission-notes">
+                {mission.notes}
               </div>
             )}
           </div>
@@ -100,8 +110,8 @@ const MissionModal = ({ isOpen, onClose, mission }: MissionModalProps) => {
         <div className="mission-modal-widget">
           {mission ? (
             <WidgetEmbed 
-              originCode={mission.origin}
-              destinationCode={mission.destination}
+              originCode={mission.originCode}
+              destinationCode={mission.destinationCode}
               className="mission-widget-embed"
             />
           ) : (

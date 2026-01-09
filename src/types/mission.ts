@@ -5,24 +5,24 @@
  * This turns the UI into an API surface that can be driven programmatically.
  */
 
+export type TravelerType = "solo" | "couple" | "family" | "other";
+
 export interface MissionInput {
-  origin: string; // IATA code (e.g., "YTO")
-  destination: string; // IATA code (e.g., "LIS")
-  dateRange?: {
-    start: string; // ISO date string (e.g., "2024-06-01")
-    end?: string; // ISO date string (e.g., "2024-06-15")
-  };
-  budget?: {
-    amount: number;
-    currency: string; // e.g., "CAD", "USD"
-  };
-  travelerType: "solo" | "couple";
+  id: string;                // stable id (e.g., "yyz-lis" or uuid)
+  originCode: string;        // e.g., "YTO" or "YYZ"
+  destinationCode: string;   // e.g., "LIS"
+  originLabel: string;       // e.g., "Toronto (YTO)"
+  destinationLabel: string;  // e.g., "Lisbon (LIS)"
+  currency?: string;         // "CAD"
+  budget?: number;           // optional
+  dateFlex?: "any" | "weekend" | "weekday" | "exact"; // optional
+  travelerType?: TravelerType;
+  notes?: string;
+  source?: "deals_grid" | "mission_input" | "deep_link";
+  createdAt?: string; // ISO string
 }
 
-/**
- * Extended mission with display names for UI
- */
-export interface Mission extends MissionInput {
-  originName?: string; // Display name (e.g., "Toronto (YYZ)")
-  destinationName?: string; // Display name (e.g., "Lisbon (LIS)")
+export interface MissionState {
+  mission: MissionInput;
+  isOpen: boolean;
 }

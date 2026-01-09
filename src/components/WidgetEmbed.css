@@ -1,3 +1,8 @@
+.widget-embed-wrapper {
+  width: 100%;
+  position: relative;
+}
+
 .widget-embed-container {
   width: 100%;
   min-height: 400px;
@@ -14,8 +19,51 @@
   width: 100%;
 }
 
+.widget-fallback {
+  margin-top: 1rem;
+  padding: 1.5rem;
+  background: rgba(100, 217, 255, 0.1);
+  border: 1px solid rgba(100, 217, 255, 0.3);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.widget-fallback-message {
+  color: rgba(255, 255, 255, 0.9);
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.widget-fallback-button {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, #64d9ff 0%, #00ff88 100%);
+  color: #0f0f14;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.widget-fallback-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(100, 217, 255, 0.4);
+}
+
+.widget-fallback-button:focus-visible {
+  outline: 2px solid #64d9ff;
+  outline-offset: 2px;
+}
+
 @media (max-width: 600px) {
   .widget-embed-container {
     min-height: 300px;
+  }
+
+  .widget-fallback {
+    padding: 1rem;
   }
 }
