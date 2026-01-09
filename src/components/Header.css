@@ -61,6 +61,10 @@
   color: #64d9ff;
 }
 
+.nav-link-route {
+  text-decoration: none;
+}
+
 .cta-button {
   background: linear-gradient(135deg, #64d9ff 0%, #00ff88 100%);
   color: #0f0f14;

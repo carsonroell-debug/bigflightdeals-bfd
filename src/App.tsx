@@ -1,18 +1,11 @@
 import { useState, useReducer } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import Hero from './components/Hero';
-import HowItWorks from './components/HowItWorks';
-import ToolsSection from './components/ToolsSection';
-import MissionInputSection from './components/MissionInputSection';
-import FlightDealsSection from './components/FlightDealsSection';
-import FlightWidget from './components/FlightWidget';
-import PlannerSection from './components/PlannerSection';
-import AboutSection from './components/AboutSection';
-import FAQSection from './components/FAQSection';
 import Footer from './components/Footer';
 import MissionModal from './components/MissionModal';
-import ResumeBanner from './components/ResumeBanner';
-import SavedMissionsPanel from './components/SavedMissionsPanel';
+import HomePage from './pages/HomePage';
+import DestinationsIndex from './pages/DestinationsIndex';
+import DestinationPage from './pages/DestinationPage';
 import { executeMission } from './utils/executeMission';
 import type { MissionV1 } from './types/mission';
 import './App.css';
@@ -56,32 +49,35 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <ResumeBanner onResumeMission={handleResumeMission} />
-      <Header />
-      <main>
-        <Hero />
-        <HowItWorks />
-        <ToolsSection />
-        <MissionInputSection onRunMission={handleOpenMission} />
-        <SavedMissionsPanel
-          onRunMission={handleResumeMission}
-          onEditMission={handleEditMission}
+    <BrowserRouter>
+      <div className="app">
+        <Header />
+        <Routes>
+          <Route
+            path="/"
+            element={
+              <HomePage
+                onRunMission={handleOpenMission}
+                onResumeMission={handleResumeMission}
+                onEditMission={handleEditMission}
+              />
+            }
+          />
+          <Route path="/destinations" element={<DestinationsIndex />} />
+          <Route
+            path="/destinations/:slug"
+            element={<DestinationPage onRunMission={handleOpenMission} />}
+          />
+        </Routes>
+        <Footer />
+        <MissionModal
+          isOpen={isMissionModalOpen}
+          onClose={handleCloseMission}
+          mission={selectedMission}
+          onRefineMission={handleRefineMission}
         />
-        <FlightDealsSection onRunMission={handleOpenMission} />
-        <FlightWidget />
-        <PlannerSection />
-        <AboutSection />
-        <FAQSection />
-      </main>
-      <Footer />
-      <MissionModal
-        isOpen={isMissionModalOpen}
-        onClose={handleCloseMission}
-        mission={selectedMission}
-        onRefineMission={handleRefineMission}
-      />
-    </div>
+      </div>
+    </BrowserRouter>
   );
 }
 
