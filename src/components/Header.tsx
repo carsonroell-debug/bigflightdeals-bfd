@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './Header.css';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -13,45 +17,54 @@ const Header = () => {
   }, []);
 
   const scrollToSection = (id: string) => {
+    if (!isHomePage) {
+      // Navigate to home first, then scroll
+      navigate('/', { state: { scrollTo: id } });
+      return;
+    }
     const element = document.getElementById(id);
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
+  // Handle scroll after navigation
+  useEffect(() => {
+    if (location.state && (location.state as { scrollTo?: string }).scrollTo) {
+      const id = (location.state as { scrollTo: string }).scrollTo;
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location]);
+
   return (
     <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
       <div className="header-container">
-        <div className="logo" onClick={() => scrollToSection('hero')}>
+        <Link to="/" className="logo">
           <span className="logo-text">BigFlightDeals</span>
-        </div>
+        </Link>
         <nav className="nav">
-          <button onClick={() => scrollToSection('how-it-works')} className="nav-link">
-            How it works
-          </button>
-          <button onClick={() => scrollToSection('tools')} className="nav-link">
-            Travel Tools
-          </button>
+          <Link to="/destinations" className="nav-link nav-link-route">
+            Destinations
+          </Link>
           <button onClick={() => scrollToSection('mission-input')} className="nav-link">
             Mission
           </button>
           <button onClick={() => scrollToSection('deals')} className="nav-link">
-            Flight Deals
+            Deals
           </button>
           <button onClick={() => scrollToSection('flight-widget')} className="nav-link">
-            Search Flights
-          </button>
-          <button onClick={() => scrollToSection('solo-planner')} className="nav-link">
-            Toolkit
+            Search
           </button>
           <button onClick={() => scrollToSection('about')} className="nav-link">
             About
           </button>
-          <button onClick={() => scrollToSection('faq')} className="nav-link">
-            FAQ
-          </button>
         </nav>
-        <button 
+        <button
           className="cta-button"
           onClick={() => scrollToSection('hero')}
         >

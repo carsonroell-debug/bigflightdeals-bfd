@@ -1,27 +1,129 @@
-import { useEffect } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import WidgetEmbed from './WidgetEmbed';
 import { track } from '../utils/analytics';
-import type { MissionInput } from '../types/mission';
+import { saveMission, getSavedMissions, canSaveMission, MAX_SAVED_MISSIONS } from '../utils/missionStore';
+import type { MissionV1 } from '../types/mission';
 import './MissionModal.css';
 
 interface MissionModalProps {
   isOpen: boolean;
   onClose: () => void;
-  mission: MissionInput | null;
+  mission: MissionV1 | null;
+  onRefineMission?: (refinedMission: MissionV1) => void;
 }
 
 /**
  * MissionModal - Agentic flight search modal.
- * 
+ *
  * Opens when user clicks "Run this mission" on a deal card.
  * Shows the route and embeds the Aviasales widget for instant price scanning.
- * 
+ *
  * Accepts a Mission object that can be triggered by:
  * - UI components (human clicks)
  * - AI agents (JSON payloads)
  * - External systems (API calls)
  */
-const MissionModal = ({ isOpen, onClose, mission }: MissionModalProps) => {
+const MissionModal = ({ isOpen, onClose, mission, onRefineMission }: MissionModalProps) => {
+  // Force re-render after save to update isSaved
+  const [, forceUpdate] = useReducer((x: number) => x + 1, 0);
+  const [showProMessage, setShowProMessage] = useState(false);
+
+  // Compute if saved on each render
+  const isSaved = mission ? getSavedMissions().some((m) => m.id === mission.id) : false;
+
+  const handleSaveMission = () => {
+    if (!mission) return;
+
+    // Check soft limit
+    if (!canSaveMission() && !isSaved) {
+      setShowProMessage(true);
+      track('pro_limit_reached', {
+        type: 'saved_missions',
+        limit: MAX_SAVED_MISSIONS,
+      });
+      return;
+    }
+
+    saveMission(mission);
+    forceUpdate();
+    setShowProMessage(false);
+
+    track('mission_saved', {
+      id: mission.id,
+      origin: mission.originCode,
+      destination: mission.destinationCode,
+    });
+  };
+
+  // Refine mission helpers
+  const handleRefine = (refinementType: 'cheaper' | 'shorter' | 'different_dest') => {
+    if (!mission || !onRefineMission) return;
+
+    let refinedMission: MissionV1;
+    const newId = `${mission.id}-${refinementType}-${Date.now()}`;
+
+    switch (refinementType) {
+      case 'cheaper':
+        refinedMission = {
+          ...mission,
+          id: newId,
+          budget: mission.budget ? Math.round(mission.budget * 0.8) : 500,
+          tags: [...(mission.tags || []), 'budget', 'cheap'].filter((v, i, a) => a.indexOf(v) === i),
+          source: 'mission_input',
+          createdAt: new Date().toISOString(),
+        };
+        break;
+      case 'shorter':
+        refinedMission = {
+          ...mission,
+          id: newId,
+          tripLengthDays: mission.tripLengthDays ? Math.max(3, mission.tripLengthDays - 3) : 5,
+          tags: [...(mission.tags || []), 'weekend'].filter((v, i, a) => a.indexOf(v) === i),
+          source: 'mission_input',
+          createdAt: new Date().toISOString(),
+        };
+        break;
+      case 'different_dest': {
+        // Pick a different destination from same region
+        const altDestinations: Record<string, { code: string; label: string }[]> = {
+          LIS: [{ code: 'OPO', label: 'Porto (OPO)' }, { code: 'MAD', label: 'Madrid (MAD)' }],
+          BCN: [{ code: 'MAD', label: 'Madrid (MAD)' }, { code: 'LIS', label: 'Lisbon (LIS)' }],
+          MAD: [{ code: 'BCN', label: 'Barcelona (BCN)' }, { code: 'LIS', label: 'Lisbon (LIS)' }],
+          OPO: [{ code: 'LIS', label: 'Lisbon (LIS)' }, { code: 'MAD', label: 'Madrid (MAD)' }],
+          BKK: [{ code: 'SGN', label: 'Ho Chi Minh City (SGN)' }],
+          SGN: [{ code: 'BKK', label: 'Bangkok (BKK)' }],
+          MEX: [{ code: 'LIS', label: 'Lisbon (LIS)' }],
+          TFS: [{ code: 'LIS', label: 'Lisbon (LIS)' }],
+        };
+        const alts = altDestinations[mission.destinationCode] || [{ code: 'LIS', label: 'Lisbon (LIS)' }];
+        const alt = alts[0];
+        refinedMission = {
+          ...mission,
+          id: newId,
+          destinationCode: alt.code,
+          destinationLabel: alt.label,
+          source: 'mission_input',
+          createdAt: new Date().toISOString(),
+        };
+        break;
+      }
+    }
+
+    // Auto-save refined mission if possible
+    if (canSaveMission()) {
+      saveMission(refinedMission);
+    }
+
+    track('mission_refined', {
+      originalId: mission.id,
+      refinedId: refinedMission.id,
+      refinementType,
+      origin: mission.originCode,
+      destination: refinedMission.destinationCode,
+    });
+
+    onRefineMission(refinedMission);
+  };
   // Handle ESC key to close
   useEffect(() => {
     if (!isOpen) return;
@@ -119,8 +221,44 @@ const MissionModal = ({ isOpen, onClose, mission }: MissionModalProps) => {
           )}
         </div>
 
+        {onRefineMission && (
+          <div className="mission-refine-section">
+            <p className="mission-refine-label">Refine this mission:</p>
+            <div className="mission-refine-buttons">
+              <button
+                className="mission-refine-btn"
+                onClick={() => handleRefine('cheaper')}
+                type="button"
+              >
+                Cheaper
+              </button>
+              <button
+                className="mission-refine-btn"
+                onClick={() => handleRefine('shorter')}
+                type="button"
+              >
+                Shorter trip
+              </button>
+              <button
+                className="mission-refine-btn"
+                onClick={() => handleRefine('different_dest')}
+                type="button"
+              >
+                Different destination
+              </button>
+            </div>
+          </div>
+        )}
+
+        {showProMessage && (
+          <div className="mission-pro-message">
+            <p>You've reached the limit of {MAX_SAVED_MISSIONS} saved missions.</p>
+            <p className="mission-pro-teaser">Pro Missions coming soon — unlimited saves, alerts & more.</p>
+          </div>
+        )}
+
         <div className="mission-modal-actions">
-          <button 
+          <button
             className="mission-button-primary"
             onClick={() => {
               // Widget is already loaded and ready - user can interact with it
@@ -135,7 +273,15 @@ const MissionModal = ({ isOpen, onClose, mission }: MissionModalProps) => {
           >
             Search live prices
           </button>
-          <button 
+          <button
+            className={`mission-button-save ${isSaved ? 'saved' : ''}`}
+            onClick={handleSaveMission}
+            disabled={isSaved}
+            type="button"
+          >
+            {isSaved ? 'Mission saved' : 'Save mission'}
+          </button>
+          <button
             className="mission-button-secondary"
             onClick={onClose}
             type="button"

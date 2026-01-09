@@ -1,0 +1,84 @@
+.resume-banner {
+  background: linear-gradient(135deg, rgba(100, 217, 255, 0.15) 0%, rgba(0, 255, 136, 0.1) 100%);
+  border-bottom: 1px solid rgba(100, 217, 255, 0.3);
+  padding: 0.75rem 1rem;
+}
+
+.resume-banner-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.resume-banner-text {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.95rem;
+}
+
+.resume-banner-text strong {
+  color: #64d9ff;
+}
+
+.resume-banner-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.resume-banner-btn {
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resume-banner-btn.resume {
+  padding: 0.4rem 1rem;
+  background: linear-gradient(135deg, #64d9ff 0%, #00ff88 100%);
+  color: #0f0f14;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.resume-banner-btn.resume:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 10px rgba(100, 217, 255, 0.3);
+}
+
+.resume-banner-btn.dismiss {
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  font-size: 1rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.resume-banner-btn.dismiss:hover {
+  color: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 500px) {
+  .resume-banner-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .resume-banner-text {
+    font-size: 0.9rem;
+  }
+}

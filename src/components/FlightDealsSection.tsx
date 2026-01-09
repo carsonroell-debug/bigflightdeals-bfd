@@ -10,7 +10,7 @@ interface FlightDealsSectionProps {
 
 const FlightDealsSection = ({ onRunMission }: FlightDealsSectionProps) => {
   const handleRunMission = (deal: typeof sampleDeals[0]) => {
-    // Build MissionInput from deal
+    // Build MissionInput from deal with "deal" tag
     const mission: MissionInput = {
       id: deal.id,
       originCode: deal.originCode,
@@ -21,21 +21,23 @@ const FlightDealsSection = ({ onRunMission }: FlightDealsSectionProps) => {
       budget: deal.price,
       travelerType: 'solo', // All deals are solo-focused
       notes: deal.notes,
+      tags: ['deal'], // Tag as deal-originated mission
       source: 'deals_grid',
     };
 
     // Execute mission (writes to localStorage, tracks analytics)
-    const normalizedMission = executeMission(mission, { openModal: true });
+    const result = executeMission(mission, { openModal: true });
 
-    // Track deal mission opened
-    track('deal_mission_opened', {
+    // Track deal converted to mission
+    track('deal_converted_to_mission', {
       origin: deal.originCode,
       destination: deal.destinationCode,
       dealId: deal.id,
+      budget: deal.price,
     });
 
     // Trigger modal open at App level (no scrolling)
-    onRunMission(normalizedMission);
+    onRunMission(result.mission);
   };
 
   return (
