@@ -1,0 +1,224 @@
+/* RoutesIndex.css */
+
+.routes-index {
+  min-height: 100vh;
+  background: #0a0a0f;
+  color: #ffffff;
+}
+
+/* Hero */
+.routes-hero {
+  padding: 4rem 1.5rem;
+  background: linear-gradient(180deg, rgba(100, 217, 255, 0.08) 0%, transparent 100%);
+  text-align: center;
+  border-bottom: 1px solid rgba(100, 217, 255, 0.1);
+}
+
+.routes-hero-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.routes-hero h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0 0 1rem;
+  background: linear-gradient(135deg, #64d9ff 0%, #00ff88 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.routes-hero-subtitle {
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 1.5rem;
+  line-height: 1.5;
+}
+
+.routes-hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.routes-stat {
+  font-size: 0.9rem;
+  color: #64d9ff;
+}
+
+.routes-stat-divider {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+/* Region Sections */
+.routes-region {
+  padding: 3rem 1.5rem;
+  border-bottom: 1px solid rgba(100, 217, 255, 0.1);
+}
+
+.routes-region:nth-child(odd) {
+  background: rgba(100, 217, 255, 0.02);
+}
+
+.routes-region-content {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.routes-region-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 2px solid rgba(100, 217, 255, 0.3);
+  display: inline-block;
+}
+
+/* Grid */
+.routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* Cards */
+.route-card {
+  background: rgba(15, 15, 20, 0.8);
+  border: 1px solid rgba(100, 217, 255, 0.15);
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.route-card:hover {
+  border-color: rgba(100, 217, 255, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(100, 217, 255, 0.15);
+}
+
+.route-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.route-card-codes {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #64d9ff;
+  background: rgba(100, 217, 255, 0.1);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+
+.route-card-price {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #00ff88;
+}
+
+.route-card-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.25rem;
+}
+
+.route-card-country {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 0.75rem;
+}
+
+.route-card-meta {
+  margin-bottom: 0.75rem;
+}
+
+.route-card-duration {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.route-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: auto;
+}
+
+.route-tag {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  background: rgba(100, 217, 255, 0.08);
+  border: 1px solid rgba(100, 217, 255, 0.2);
+  border-radius: 4px;
+  color: rgba(100, 217, 255, 0.8);
+}
+
+/* Bottom CTA */
+.routes-bottom-cta {
+  padding: 4rem 1.5rem;
+  text-align: center;
+  background: linear-gradient(180deg, transparent 0%, rgba(100, 217, 255, 0.05) 100%);
+}
+
+.routes-cta-content {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.routes-bottom-cta h2 {
+  font-size: 1.75rem;
+  margin: 0 0 1rem;
+  color: #ffffff;
+}
+
+.routes-bottom-cta p {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 1.5rem;
+}
+
+.routes-cta-button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: linear-gradient(135deg, #64d9ff 0%, #00ff88 100%);
+  color: #0f0f14;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.routes-cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(100, 217, 255, 0.4);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .routes-hero h1 {
+    font-size: 1.75rem;
+  }
+
+  .routes-hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .routes-region {
+    padding: 2rem 1rem;
+  }
+
+  .routes-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,6 @@
+# BigFlightDeals Robots.txt
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://bigflightdeals.com/sitemap.xml

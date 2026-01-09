@@ -1,0 +1,134 @@
+/* PopularRoutesSection.css */
+
+.popular-routes-section {
+  padding: 4rem 1.5rem;
+  background: rgba(100, 217, 255, 0.02);
+  border-top: 1px solid rgba(100, 217, 255, 0.1);
+  border-bottom: 1px solid rgba(100, 217, 255, 0.1);
+}
+
+.popular-routes-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.popular-routes-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+.popular-routes-subtitle {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-align: center;
+  margin: 0 0 2rem;
+}
+
+.popular-routes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.25rem;
+}
+
+.popular-route-card {
+  background: rgba(15, 15, 20, 0.8);
+  border: 1px solid rgba(100, 217, 255, 0.15);
+  border-radius: 10px;
+  padding: 1.25rem;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.popular-route-card:hover {
+  border-color: rgba(100, 217, 255, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(100, 217, 255, 0.12);
+}
+
+.popular-route-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.popular-route-codes {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64d9ff;
+  background: rgba(100, 217, 255, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.popular-route-price {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #00ff88;
+}
+
+.popular-route-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 0.25rem;
+}
+
+.popular-route-country {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 0.75rem;
+}
+
+.popular-route-tags {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: auto;
+}
+
+.popular-route-tag {
+  font-size: 0.7rem;
+  padding: 0.15rem 0.4rem;
+  background: rgba(100, 217, 255, 0.08);
+  border: 1px solid rgba(100, 217, 255, 0.2);
+  border-radius: 3px;
+  color: rgba(100, 217, 255, 0.7);
+}
+
+.popular-routes-cta {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.popular-routes-link {
+  display: inline-block;
+  color: #64d9ff;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #64d9ff;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.popular-routes-link:hover {
+  background: rgba(100, 217, 255, 0.1);
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .popular-routes-section {
+    padding: 3rem 1rem;
+  }
+
+  .popular-routes-grid {
+    grid-template-columns: 1fr;
+  }
+}
