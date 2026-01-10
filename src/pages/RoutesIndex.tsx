@@ -12,28 +12,28 @@ import './RoutesIndex.css';
 
 const RoutesIndex = () => {
   useSEO({
-    title: 'Cheap Flights from Toronto | Best Flight Deals 2025',
-    description: 'Find cheap flights from Toronto to Europe, Asia, and the Americas. Compare prices, discover the best months to fly, and book budget-friendly flights.',
-    keywords: ['cheap flights toronto', 'toronto flights', 'budget flights canada', 'flight deals toronto', 'best flight prices'],
+    title: 'Cheap Solo Travel Flights | Best Flight Deals 2025',
+    description: 'Find cheap flights for solo travelers from North America and Europe to 45+ destinations worldwide. Compare prices, discover the best months to fly, and book budget-friendly flights.',
+    keywords: ['cheap flights', 'solo travel flights', 'budget flights', 'flight deals', 'cheap flights to europe', 'cheap flights to asia'],
   });
 
   const byRegion = getRoutesByRegion();
-  const regionOrder = ['Europe', 'Asia', 'Americas', 'Caribbean'];
+  const regionOrder = ['Europe', 'UK & Ireland', 'Nordics', 'Asia', 'Americas', 'Caribbean'];
 
   return (
     <div className="routes-index">
       {/* Hero */}
       <section className="routes-hero">
         <div className="routes-hero-content">
-          <h1>Cheap Flights from Toronto</h1>
+          <h1>Solo Travel Flight Deals</h1>
           <p className="routes-hero-subtitle">
-            Find the best flight deals to destinations worldwide.
-            Budget-focused routes, real prices, mission-ready.
+            Find the best flight deals for solo travelers worldwide.
+            Budget-focused routes from 14 hub cities to 45+ destinations.
           </p>
           <div className="routes-hero-stats">
             <span className="routes-stat">{routes.length} routes</span>
             <span className="routes-stat-divider">|</span>
-            <span className="routes-stat">All from Toronto</span>
+            <span className="routes-stat">14 origin cities</span>
             <span className="routes-stat-divider">|</span>
             <span className="routes-stat">Updated weekly</span>
           </div>
