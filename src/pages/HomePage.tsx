@@ -10,6 +10,7 @@ import ToolsSection from '../components/ToolsSection';
 import MissionInputSection from '../components/MissionInputSection';
 import SavedMissionsPanel from '../components/SavedMissionsPanel';
 import FlightDealsSection from '../components/FlightDealsSection';
+import PopularRoutesSection from '../components/PopularRoutesSection';
 import FlightWidget from '../components/FlightWidget';
 import PlannerSection from '../components/PlannerSection';
 import AboutSection from '../components/AboutSection';
@@ -37,6 +38,7 @@ const HomePage = ({ onRunMission, onResumeMission, onEditMission }: HomePageProp
           onEditMission={onEditMission}
         />
         <FlightDealsSection onRunMission={onRunMission} />
+        <PopularRoutesSection />
         <FlightWidget />
         <PlannerSection />
         <AboutSection />

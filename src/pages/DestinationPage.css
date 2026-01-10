@@ -336,6 +336,52 @@
   color: #64d9ff;
 }
 
+/* Related Routes */
+.dest-related-routes {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.dest-related-route {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(15, 15, 20, 0.8);
+  border: 1px solid rgba(100, 217, 255, 0.15);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.dest-related-route:hover {
+  border-color: rgba(100, 217, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.dest-route-codes {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64d9ff;
+  background: rgba(100, 217, 255, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  align-self: flex-start;
+}
+
+.dest-route-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.dest-route-price {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #00ff88;
+}
+
 /* Final CTA */
 .dest-cta-section {
   padding: 4rem 1.5rem;

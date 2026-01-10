@@ -7,6 +7,7 @@
 
 import { useParams, Link } from 'react-router-dom';
 import { getDestinationBySlug, destinationToMission } from '../data/destinations';
+import { getRoutesToDestination } from '../data/routes';
 import { executeMission } from '../utils/executeMission';
 import { track } from '../utils/analytics';
 import { useSEO } from '../utils/useSEO';
@@ -223,6 +224,38 @@ const DestinationPage = ({ onRunMission }: DestinationPageProps) => {
           </div>
         </div>
       </section>
+
+      {/* Related Routes */}
+      {(() => {
+        const relatedRoutes = getRoutesToDestination(destination.destinationName, 4);
+        if (relatedRoutes.length === 0) return null;
+        return (
+          <section className="dest-section">
+            <div className="dest-section-content">
+              <h2>Popular Flights to {destination.destinationName}</h2>
+              <div className="dest-related-routes">
+                {relatedRoutes.map((route) => (
+                  <Link
+                    key={route.slug}
+                    to={`/routes/${route.slug}`}
+                    className="dest-related-route"
+                  >
+                    <span className="dest-route-codes">
+                      {route.originIata} → {route.destIata}
+                    </span>
+                    <span className="dest-route-name">
+                      {route.originCity} to {route.destCity}
+                    </span>
+                    <span className="dest-route-price">
+                      From ${route.budgetRange.min}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      })()}
 
       {/* Final CTA */}
       <section className="dest-cta-section">

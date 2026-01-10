@@ -6,6 +6,8 @@ import MissionModal from './components/MissionModal';
 import HomePage from './pages/HomePage';
 import DestinationsIndex from './pages/DestinationsIndex';
 import DestinationPage from './pages/DestinationPage';
+import RoutesIndex from './pages/RoutesIndex';
+import RoutePage from './pages/RoutePage';
 import { executeMission } from './utils/executeMission';
 import type { MissionV1 } from './types/mission';
 import './App.css';
@@ -67,6 +69,11 @@ function App() {
           <Route
             path="/destinations/:slug"
             element={<DestinationPage onRunMission={handleOpenMission} />}
+          />
+          <Route path="/routes" element={<RoutesIndex />} />
+          <Route
+            path="/routes/:slug"
+            element={<RoutePage onRunMission={handleOpenMission} />}
           />
         </Routes>
         <Footer />

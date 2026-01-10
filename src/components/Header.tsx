@@ -51,6 +51,9 @@ const Header = () => {
           <Link to="/destinations" className="nav-link nav-link-route">
             Destinations
           </Link>
+          <Link to="/routes" className="nav-link nav-link-route">
+            Routes
+          </Link>
           <button onClick={() => scrollToSection('mission-input')} className="nav-link">
             Mission
           </button>
