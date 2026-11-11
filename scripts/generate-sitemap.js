@@ -15,7 +15,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Base URL for the site
-const BASE_URL = 'https://bigflightdeals.com';
+const BASE_URL = 'https://www.bigflightdeals.com';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Hub Origins (must match routes.ts)
@@ -227,6 +227,7 @@ const staticPages = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
   { path: '/destinations', priority: '0.9', changefreq: 'weekly' },
   { path: '/routes', priority: '0.9', changefreq: 'weekly' },
+  { path: '/guides/toronto-to-bangkok.html', priority: '0.8', changefreq: 'monthly' },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────

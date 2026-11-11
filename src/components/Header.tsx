@@ -57,9 +57,7 @@ const Header = () => {
           <button onClick={() => scrollToSection('mission-input')} className="nav-link">
             Mission
           </button>
-          <button onClick={() => scrollToSection('deals')} className="nav-link">
-            Deals
-          </button>
+          <a href="/guides/toronto-to-bangkok.html" className="nav-link">Bangkok guide</a>
           <button onClick={() => scrollToSection('flight-widget')} className="nav-link">
             Search
           </button>
@@ -67,12 +65,7 @@ const Header = () => {
             About
           </button>
         </nav>
-        <button
-          className="cta-button"
-          onClick={() => scrollToSection('hero')}
-        >
-          Get flight alerts
-        </button>
+        <a className="cta-button" href="/guides/toronto-to-bangkok.html">Read the guide</a>
       </div>
     </header>
   );

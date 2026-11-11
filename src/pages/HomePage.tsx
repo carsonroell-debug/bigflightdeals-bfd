@@ -6,13 +6,9 @@
 
 import Hero from '../components/Hero';
 import HowItWorks from '../components/HowItWorks';
-import ToolsSection from '../components/ToolsSection';
 import MissionInputSection from '../components/MissionInputSection';
 import SavedMissionsPanel from '../components/SavedMissionsPanel';
-import FlightDealsSection from '../components/FlightDealsSection';
-import PopularRoutesSection from '../components/PopularRoutesSection';
 import FlightWidget from '../components/FlightWidget';
-import PlannerSection from '../components/PlannerSection';
 import AboutSection from '../components/AboutSection';
 import FAQSection from '../components/FAQSection';
 import ResumeBanner from '../components/ResumeBanner';
@@ -31,16 +27,12 @@ const HomePage = ({ onRunMission, onResumeMission, onEditMission }: HomePageProp
       <main>
         <Hero />
         <HowItWorks />
-        <ToolsSection />
         <MissionInputSection onRunMission={onRunMission} />
         <SavedMissionsPanel
           onRunMission={onResumeMission}
           onEditMission={onEditMission}
         />
-        <FlightDealsSection onRunMission={onRunMission} />
-        <PopularRoutesSection />
         <FlightWidget />
-        <PlannerSection />
         <AboutSection />
         <FAQSection />
       </main>
