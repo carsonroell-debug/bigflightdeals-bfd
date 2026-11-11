@@ -55,6 +55,7 @@
   padding: 0.5rem 0;
   transition: color 0.2s ease;
   font-family: inherit;
+  text-decoration: none;
 }
 
 .nav-link:hover {
@@ -77,6 +78,8 @@
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   white-space: nowrap;
   font-family: inherit;
+  text-decoration: none;
+  text-align: center;
 }
 
 .cta-button:hover {

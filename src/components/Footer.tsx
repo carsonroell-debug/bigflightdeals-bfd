@@ -11,8 +11,7 @@ const Footer = () => {
             © {currentYear} BigFlightDeals. All rights reserved.
           </div>
           <div className="footer-links">
-            <button onClick={() => document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' })} className="footer-link">Travel Tools</button>
-            <button onClick={() => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' })} className="footer-link">Email list</button>
+            <a href="/guides/toronto-to-bangkok.html" className="footer-link">Toronto to Bangkok guide</a>
             <a href="#" className="footer-link">Privacy</a>
             <a href="#" className="footer-link">Instagram</a>
             <a href="#" className="footer-link">Twitter</a>
